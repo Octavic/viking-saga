@@ -9,14 +9,28 @@ namespace Assets.Scripts
 
     public class Entity : MonoBehaviour
     {
-        public bool IsFacingRight { get; private set; }
+        public bool IsFacingRight
+        {
+            get
+            {
+                return this._isFacingRight;
+            }
+            set
+            {
+                if(value != this._isFacingRight)
+                {
+                    this.scaleGoal = new Vector3(value ? 1 : -1, 1);
+                    this._isFacingRight = value;
+                }
+            }
+        }
+        private bool _isFacingRight;
 
         private Vector3 scaleGoal = new Vector3(1, 1);
 
-        public void Flip()
+        protected virtual void Start()
         {
-            this.scaleGoal = new Vector3(this.IsFacingRight ? -1 : 1, 1);
-            this.IsFacingRight = !this.IsFacingRight;
+            this.IsFacingRight = true;
         }
 
         protected virtual void Update()

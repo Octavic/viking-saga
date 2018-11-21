@@ -8,5 +8,8 @@ namespace Assets.Scripts
 
     public class Ragnar : Entity
     {
+        protected override void Start()
+        {
+        }
     }
 }

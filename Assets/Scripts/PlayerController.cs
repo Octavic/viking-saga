@@ -41,19 +41,13 @@ namespace Assets.Scripts
             int y = 0;
             if (Input.GetKey(KeyCode.D))
             {
-                if (!RagnarObj.IsFacingRight)
-                {
-                    this.FlipAllMinions();
-                }
+                this.FaceAllMinions(true);
                 this.RenderMinions();
                 x = 1;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                if (RagnarObj.IsFacingRight)
-                {
-                    this.FlipAllMinions();
-                }
+                this.FaceAllMinions(false);
                 this.RenderMinions();
                 x = -1;
             }
@@ -77,13 +71,13 @@ namespace Assets.Scripts
             this.transform.position += new Vector3(this.Speed.x * x, this.Speed.y * y) * Time.deltaTime;
         }
 
-        private void FlipAllMinions()
+        private void FaceAllMinions(bool newFacing)
         {
-            foreach(var minion in this.minions)
+            foreach(var m in this.minions)
             {
-                minion.Flip();
+                m.IsFacingRight = newFacing;
             }
-            this.RagnarObj.Flip();
+            this.RagnarObj.IsFacingRight = newFacing;
         }
 
         private void SwapMinion(int index, int withIndex)
