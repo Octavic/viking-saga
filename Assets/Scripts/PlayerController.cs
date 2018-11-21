@@ -13,7 +13,6 @@ namespace Assets.Scripts
         public float MinionHeight;
 
         public Ragnar RagnarObj;
-
         public Vector2 Speed;
 
         private List<Minion> minions;
@@ -59,6 +58,20 @@ namespace Assets.Scripts
             {
                 y = -1;
             }
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                if (this.minions[3] != null)
+                {
+                    this.minions[3].OnHit(5);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                if (this.minions[0] != null)
+                {
+                    this.minions[0].OnHit(5);
+                }
+            }
 
             foreach (var input in this.SwapIndex)
             {
@@ -69,11 +82,19 @@ namespace Assets.Scripts
             }
 
             this.transform.position += new Vector3(this.Speed.x * x, this.Speed.y * y) * Time.deltaTime;
+
+            for (int i = 0; i < this.minions.Count; i++)
+            {
+                if (this.minions[i] != null && this.minions[i].CurrentHP <= 0)
+                {
+                    Destroy(this.minions[i].gameObject);
+                }
+            }
         }
 
         private void FaceAllMinions(bool newFacing)
         {
-            foreach(var m in this.minions)
+            foreach (var m in this.minions)
             {
                 m.IsFacingRight = newFacing;
             }
