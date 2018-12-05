@@ -15,6 +15,22 @@ namespace Assets.Scripts
         public Ragnar RagnarObj;
         public Vector2 Speed;
 
+        public bool IsFacingRight { get { return this.RagnarObj.IsFacingRight; } }
+        public int FrontUnitIndex
+        {
+            get
+            {
+                return this.IsFacingRight ? 3 : 0;
+            }
+        }
+        public Minion FrontMinion
+        {
+            get
+            {
+                return this.minions[this.FrontUnitIndex];
+            }
+        }
+
         private List<Minion> minions;
         private List<int> minionIndexes = new List<int>() { -2, -1, 1, 2 };
 
@@ -36,28 +52,31 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-            int x = 0;
-            int y = 0;
+            float x = 0;
+            float y = 0;
             if (Input.GetKey(KeyCode.D))
             {
-                this.FaceAllMinions(true);
                 this.RenderMinions();
                 x = 1;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                this.FaceAllMinions(false);
                 this.RenderMinions();
                 x = -1;
             }
             if (Input.GetKey(KeyCode.W))
             {
-                y = 1;
+                y = 2;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                y = -1;
+                y = -2;
             }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                this.FlipAll();
+            }
+
             if (Input.GetKeyDown(KeyCode.H))
             {
                 if (this.minions[3] != null)
@@ -72,12 +91,16 @@ namespace Assets.Scripts
                     this.minions[0].OnHit(5);
                 }
             }
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                this.FrontMinion.UnitAttack();
+            }
 
             foreach (var input in this.SwapIndex)
             {
                 if (Input.GetKeyDown(input.Key))
                 {
-                    this.SwapMinion(input.Value, this.RagnarObj.IsFacingRight ? 3 : 0);
+                    this.SwapMinion(input.Value, this.IsFacingRight ? 3 : 0);
                 }
             }
 
@@ -92,13 +115,14 @@ namespace Assets.Scripts
             }
         }
 
-        private void FaceAllMinions(bool newFacing)
+        private void FlipAll()
         {
+            var wasFacingRight = this.RagnarObj.IsFacingRight;
             foreach (var m in this.minions)
             {
-                m.IsFacingRight = newFacing;
+                m.IsFacingRight = !wasFacingRight;
             }
-            this.RagnarObj.IsFacingRight = newFacing;
+            this.RagnarObj.IsFacingRight = !wasFacingRight;
         }
 
         private void SwapMinion(int index, int withIndex)
@@ -118,5 +142,4 @@ namespace Assets.Scripts
             }
         }
     }
-
 }

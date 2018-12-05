@@ -10,6 +10,12 @@ namespace Assets.Scripts
     public class Minion : Entity
     {
         private Vector3 goal;
+
+        public virtual void UnitAttack()
+        {
+
+        }
+
         public void MoveTo(Vector3 goal)
         {
             this.goal = goal;

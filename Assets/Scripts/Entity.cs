@@ -9,6 +9,12 @@ namespace Assets.Scripts
 
     public class Entity : MonoBehaviour
     {
+        public Sprite Normal;
+        public Sprite Attack;
+        public Sprite Death;
+
+        public bool IsAttacking { get; protected set; }
+
         public EntityFaction Faction;
 
         public float TotalHP;
@@ -46,6 +52,7 @@ namespace Assets.Scripts
         private HpBar HpBarObj;
 
         private Vector3 scaleGoal = new Vector3(1, 1);
+        protected SpriteRenderer renderer;
 
         public void OnHit(float damageTaken)
         {
@@ -57,6 +64,7 @@ namespace Assets.Scripts
             this.IsFacingRight = true;
             this._currentHP = this.TotalHP;
             this.HpBarObj = this.GetComponentInChildren<HpBar>();
+            this.renderer = this.GetComponent<SpriteRenderer>();
         }
 
         protected virtual void Update()

@@ -10,6 +10,7 @@ namespace Assets.Scripts
     {
         protected override void Start()
         {
+            base.Start();
         }
     }
 }
