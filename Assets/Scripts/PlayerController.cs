@@ -155,7 +155,13 @@ namespace Assets.Scripts
 		}
 		public void TakeDamage(bool fromRight, float damage)
 		{
-			this.TargetFrom(fromRight).OnHit(fromRight, damage);
+			var target = this.TargetFrom(fromRight);
+			if(target == null || target.IsInvincible)
+			{
+				return;
+			}
+
+			target.CurrentHP -= damage;
 		}
 	}
 }

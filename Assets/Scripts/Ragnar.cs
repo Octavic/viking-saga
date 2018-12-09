@@ -5,6 +5,7 @@ namespace Assets.Scripts
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+	using UnityEngine.SceneManagement;
 
     public class Ragnar : Entity
     {
@@ -12,5 +13,15 @@ namespace Assets.Scripts
         {
             base.Start();
         }
-    }
+
+		protected override void Update()
+		{
+			if(this.CurrentHP <= 0)
+			{
+				SceneManager.LoadScene(2);
+			}
+
+			base.Update();
+		}
+	}
 }

@@ -39,22 +39,6 @@
 			}
 		}
 
-		protected virtual void OnTriggerEnter2D(Collider2D collision)
-		{
-			var hitbox = collision.GetComponent<Hitbox>();
-			if (hitbox != null && hitbox.Faction != this.Faction)
-			{
-				this.OnHit(true, hitbox.Damage);
-			}
-
-			var arrow = collision.GetComponent<Arrow>();
-			if (arrow != null && arrow.FromFaction != this.Faction)
-			{
-				this.OnHit(true, arrow.Damage);
-				Destroy(arrow.gameObject);
-			}
-		}
-
 		protected override IEnumerator AttackRoutine()
 		{
 			yield return base.AttackRoutine();

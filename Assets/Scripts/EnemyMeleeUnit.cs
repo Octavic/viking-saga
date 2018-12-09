@@ -49,23 +49,14 @@
 			this.IsAttacking = true;
 			this.spriteRenderer.sprite = this.RedSprite;
 			yield return new WaitForSeconds(1);
-			yield return base.AttackRoutine();
-		}
-
-		protected virtual void OnTriggerEnter2D(Collider2D collision)
-		{
-			var hitbox = collision.GetComponent<Hitbox>();
-			if (hitbox != null && hitbox.Faction != this.Faction)
-			{
-				this.OnHit(true, hitbox.Damage);
-			}
-
-			var arrow = collision.GetComponent<Arrow>();
-			if (arrow != null && arrow.FromFaction != this.Faction)
-			{
-				this.OnHit(true, arrow.Damage);
-				Destroy(arrow.gameObject);
-			}
+			this.MeleehHitbox.IsFacingRight = this.IsFacingRight;
+			this.IsAttacking = true;
+			this.MeleehHitbox.gameObject.SetActive(true);
+			this.spriteRenderer.sprite = this.Attack;
+			yield return new WaitForSeconds(0.3f);
+			this.IsAttacking = false;
+			this.MeleehHitbox.gameObject.SetActive(false);
+			this.spriteRenderer.sprite = this.Normal;
 		}
 	}
 }

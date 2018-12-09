@@ -12,6 +12,7 @@ namespace Assets.Scripts
 		public Sprite Normal;
 		public Sprite Attack;
 		public Sprite Death;
+		public bool IsInvincible;
 
 		public bool IsAttacking { get; protected set; }
 
@@ -85,5 +86,22 @@ namespace Assets.Scripts
 		{
 			this.transform.localScale = Vector3.Lerp(this.transform.localScale, this.scaleGoal, 0.5f);
 		}
+
+		protected virtual void OnTriggerEnter2D(Collider2D collision)
+		{
+			var hitbox = collision.GetComponent<Hitbox>();
+			if (hitbox != null && hitbox.Faction != this.Faction)
+			{
+				this.OnHit(true, hitbox.Damage);
+			}
+
+			var arrow = collision.GetComponent<Arrow>();
+			if (arrow != null && arrow.FromFaction != this.Faction)
+			{
+				this.OnHit(true, arrow.Damage);
+				Destroy(arrow.gameObject);
+			}
+		}
+
 	}
 }
