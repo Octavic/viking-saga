@@ -26,5 +26,5 @@ namespace Assets.Scripts
             base.Update();
             this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, this.MovementGoal, 0.3f);
         }
-    }
+	}
 }

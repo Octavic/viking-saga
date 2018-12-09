@@ -1,90 +1,89 @@
 ﻿
 namespace Assets.Scripts
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using UnityEngine;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using UnityEngine;
 
-    public class Entity : MonoBehaviour
-    {
-        public Sprite Normal;
-        public Sprite Attack;
-        public Sprite Death;
+	public class Entity : MonoBehaviour
+	{
+		public Sprite Normal;
+		public Sprite Attack;
+		public Sprite Death;
 
-        public bool IsAttacking { get; protected set; }
+		public bool IsAttacking { get; protected set; }
 
-        public EntityFaction Faction;
+		public EntityFaction Faction;
 
-        public float TotalHP;
-        public float CurrentHP
-        {
-            get
-            {
-                return this._currentHP;
-            }
-            protected set
-            {
-                this._currentHP = value;
-                if (this._currentHP < 0)
-                {
-                    this.OnDeath();
-                }
-                this.HpBarObj.Set(this._currentHP / this.TotalHP);
-            }
-        }
-        private float _currentHP;
+		public float TotalHP;
+		public float CurrentHP
+		{
+			get
+			{
+				return this._currentHP;
+			}
+			set
+			{
+				this._currentHP = value;
+				if (this._currentHP < 0)
+				{
+					this.OnDeath();
+				}
+				this.HpBarObj.Set(this._currentHP / this.TotalHP);
+			}
+		}
+		private float _currentHP;
 
-        public bool IsFacingRight
-        {
-            get
-            {
-                return this._isFacingRight;
-            }
-            set
-            {
-                if (value != this._isFacingRight)
-                {
-                    this.scaleGoal = new Vector3(value ? 1 : -1, 1);
-                    this._isFacingRight = value;
-                }
-            }
-        }
-        private bool _isFacingRight;
+		public bool IsFacingRight
+		{
+			get
+			{
+				return this._isFacingRight;
+			}
+			set
+			{
+				if (value != this._isFacingRight)
+				{
+					this.scaleGoal = new Vector3(value ? 1 : -1, 1);
+					this._isFacingRight = value;
+				}
+			}
+		}
+		private bool _isFacingRight;
 
-        private HpBar HpBarObj;
+		private HpBar HpBarObj;
 
-        private Vector3 scaleGoal = new Vector3(1, 1);
-        protected SpriteRenderer spriteRenderer;
+		private Vector3 scaleGoal = new Vector3(1, 1);
+		protected SpriteRenderer spriteRenderer;
 
-        public void OnHit(float damageTaken)
-        {
-            this.CurrentHP -= damageTaken;
-        }
+		public virtual void OnHit(bool fromRight, float damageTaken)
+		{
+			this.CurrentHP -= damageTaken;
+		}
+		public void OnDeath()
+		{
+			var corpse = new GameObject();
+			corpse.transform.position = this.transform.position;
+			var corpseRenderer = corpse.AddComponent<SpriteRenderer>();
+			corpseRenderer.sprite = this.Death;
+			corpseRenderer.sortingOrder = -1;
 
-        public void OnDeath()
-        {
-            var corpse = new GameObject();
-            corpse.transform.position = this.transform.position;
-            var corpseRenderer = corpse.AddComponent<SpriteRenderer>();
-            corpseRenderer.sprite = this.Death;
-            corpseRenderer.sortingOrder = -1;
-            
-            Destroy(this.gameObject);
-        }
+			Destroy(this.gameObject);
+		}
 
-        protected virtual void Start()
-        {
-            this.IsFacingRight = true;
-            this._currentHP = this.TotalHP;
-            this.HpBarObj = this.GetComponentInChildren<HpBar>();
-            this.spriteRenderer = this.GetComponent<SpriteRenderer>();
-        }
+		protected virtual void Start()
+		{
+			this.IsFacingRight = true;
+			this._currentHP = this.TotalHP;
+			this.HpBarObj = this.GetComponentInChildren<HpBar>();
+			this.spriteRenderer = this.GetComponent<SpriteRenderer>();
+		}
 
-        protected virtual void Update()
-        {
-            this.transform.localScale = Vector3.Lerp(this.transform.localScale, this.scaleGoal, 0.5f);
-        }
-    }
+		protected virtual void Update()
+		{
+			this.transform.localScale = Vector3.Lerp(this.transform.localScale, this.scaleGoal, 0.5f);
+		}
+	}
 }

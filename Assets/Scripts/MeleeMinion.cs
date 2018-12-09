@@ -21,7 +21,7 @@
             StartCoroutine(this.AttackRoutine());
         }
 
-        private IEnumerator AttackRoutine()
+        protected virtual IEnumerator AttackRoutine()
         {
             this.MeleehHitbox.IsFacingRight = this.IsFacingRight;
             this.IsAttacking = true;

@@ -28,7 +28,7 @@
             newArrow.IsFacingRight = this.IsFacingRight;
             this.StartCoroutine(this.AttackRoutine());
         }
-        private IEnumerator AttackRoutine()
+        protected virtual IEnumerator AttackRoutine()
         {
             this.IsAttacking = true;
             this.spriteRenderer.sprite = this.Attack;
