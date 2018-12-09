@@ -25,15 +25,16 @@
             }
 
             newArrow.transform.position = this.transform.position;
+            newArrow.IsFacingRight = this.IsFacingRight;
             this.StartCoroutine(this.AttackRoutine());
         }
         private IEnumerator AttackRoutine()
         {
             this.IsAttacking = true;
-            this.renderer.sprite = this.Attack;
+            this.spriteRenderer.sprite = this.Attack;
             yield return new WaitForSeconds(0.3f);
             this.IsAttacking = false;
-            this.renderer.sprite = this.Normal;
+            this.spriteRenderer.sprite = this.Normal;
         }
     }
 }

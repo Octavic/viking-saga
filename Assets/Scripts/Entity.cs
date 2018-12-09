@@ -27,6 +27,10 @@ namespace Assets.Scripts
             protected set
             {
                 this._currentHP = value;
+                if (this._currentHP < 0)
+                {
+                    this.OnDeath();
+                }
                 this.HpBarObj.Set(this._currentHP / this.TotalHP);
             }
         }
@@ -52,11 +56,22 @@ namespace Assets.Scripts
         private HpBar HpBarObj;
 
         private Vector3 scaleGoal = new Vector3(1, 1);
-        protected SpriteRenderer renderer;
+        protected SpriteRenderer spriteRenderer;
 
         public void OnHit(float damageTaken)
         {
             this.CurrentHP -= damageTaken;
+        }
+
+        public void OnDeath()
+        {
+            var corpse = new GameObject();
+            corpse.transform.position = this.transform.position;
+            var corpseRenderer = corpse.AddComponent<SpriteRenderer>();
+            corpseRenderer.sprite = this.Death;
+            corpseRenderer.sortingOrder = -1;
+            
+            Destroy(this.gameObject);
         }
 
         protected virtual void Start()
@@ -64,7 +79,7 @@ namespace Assets.Scripts
             this.IsFacingRight = true;
             this._currentHP = this.TotalHP;
             this.HpBarObj = this.GetComponentInChildren<HpBar>();
-            this.renderer = this.GetComponent<SpriteRenderer>();
+            this.spriteRenderer = this.GetComponent<SpriteRenderer>();
         }
 
         protected virtual void Update()

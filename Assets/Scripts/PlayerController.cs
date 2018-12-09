@@ -6,6 +6,8 @@ namespace Assets.Scripts
 {
     public class PlayerController : MonoBehaviour
     {
+        public static PlayerController CurrentInstance { get; private set; }
+
         /// <summary>
         /// How far away the minions are from each other
         /// </summary>
@@ -47,6 +49,8 @@ namespace Assets.Scripts
         {
             this.minions = new List<Minion>(this.transform.GetComponentsInChildren<Minion>());
             this.RenderMinions();
+
+            PlayerController.CurrentInstance = this;   
         }
 
         // Update is called once per frame
@@ -66,11 +70,11 @@ namespace Assets.Scripts
             }
             if (Input.GetKey(KeyCode.W))
             {
-                y = 2;
+                y = 1;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                y = -2;
+                y = -1;
             }
             if (Input.GetKeyDown(KeyCode.F))
             {

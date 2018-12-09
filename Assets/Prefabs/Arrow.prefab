@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4400735249668544}
   - component: {fileID: 212735847418665904}
   - component: {fileID: 114742929643483034}
+  - component: {fileID: 61261520557116994}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -41,6 +42,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &61261520557116994
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1600483993168148}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.16, y: 1.84}
+    newSize: {x: 3.16, y: 1.84}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.16, y: 1.84}
+  m_EdgeRadius: 0
 --- !u!114 &114742929643483034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -54,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FromFaction: 0
   Velocity: 20
-  Damage: 0
+  Damage: 4
 --- !u!212 &212735847418665904
 SpriteRenderer:
   m_ObjectHideFlags: 1

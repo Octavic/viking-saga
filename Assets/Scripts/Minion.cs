@@ -9,7 +9,7 @@ namespace Assets.Scripts
 
     public class Minion : Entity
     {
-        private Vector3 goal;
+        protected Vector3 MovementGoal;
 
         public virtual void UnitAttack()
         {
@@ -18,13 +18,13 @@ namespace Assets.Scripts
 
         public void MoveTo(Vector3 goal)
         {
-            this.goal = goal;
+            this.MovementGoal = goal;
         }
 
         protected override void Update()
         {
             base.Update();
-            this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, this.goal, 0.3f);
+            this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, this.MovementGoal, 0.3f);
         }
     }
 }

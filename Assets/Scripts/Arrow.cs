@@ -13,11 +13,12 @@
 
         public float Velocity;
         public float Damage;
+        public bool IsFacingRight { get; set; }
 
         protected void Update()
         {
             var movement = this.Velocity * Time.deltaTime;
-            if(this.transform.localScale.x <0)
+            if (!this.IsFacingRight)
             {
                 movement *= -1;
             }

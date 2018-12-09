@@ -10,5 +10,7 @@
     {
         public EntityFaction Faction;
         public float Damage;
+        public bool CanHitMultiple;
+        public bool IsFacingRight { get; set; }
     }
 }
