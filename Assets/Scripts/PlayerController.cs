@@ -17,6 +17,9 @@ namespace Assets.Scripts
 		public Ragnar RagnarObj;
 		public Vector2 Speed;
 
+
+		public Effect HitSpark;
+
 		public bool IsFacingRight { get { return this.RagnarObj.IsFacingRight; } }
 		public int FrontUnitIndex
 		{
@@ -93,6 +96,10 @@ namespace Assets.Scripts
 			{
 				this.FrontMinion.UnitAttack();
 			}
+			if (Input.GetKeyUp(KeyCode.J))
+			{
+				this.FrontMinion.UnitAttackRelease();
+			}
 
 			foreach (var input in this.SwapIndex)
 			{
@@ -156,7 +163,7 @@ namespace Assets.Scripts
 		public void TakeDamage(bool fromRight, float damage)
 		{
 			var target = this.TargetFrom(fromRight);
-			if(target == null || target.IsInvincible)
+			if (target == null || target.IsInvincible)
 			{
 				return;
 			}

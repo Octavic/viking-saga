@@ -16,7 +16,12 @@ namespace Assets.Scripts
 
         }
 
-        public void MoveTo(Vector3 goal)
+		public virtual void UnitAttackRelease()
+		{
+
+		}
+
+		public void MoveTo(Vector3 goal)
         {
             this.MovementGoal = goal;
         }

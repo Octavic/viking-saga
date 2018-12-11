@@ -61,6 +61,8 @@ namespace Assets.Scripts
 
 		public virtual void OnHit(bool fromRight, float damageTaken)
 		{
+			var newHitSpark = Instantiate(PlayerController.CurrentInstance.HitSpark);
+			newHitSpark.transform.position = this.transform.position;
 			this.CurrentHP -= damageTaken;
 		}
 		public void OnDeath()
