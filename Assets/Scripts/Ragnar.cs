@@ -1,27 +1,23 @@
 ﻿
 namespace Assets.Scripts
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
 	using UnityEngine.SceneManagement;
 
-    public class Ragnar : Entity
-    {
-        protected override void Start()
-        {
-            base.Start();
-        }
-
-		protected override void Update()
+	public class Ragnar : Entity
+	{
+		protected override void Start()
 		{
-			if(this.CurrentHP <= 0)
-			{
-				SceneManager.LoadScene(2);
-			}
+			base.Start();
+		}
 
-			base.Update();
+		public override void OnDeath()
+		{
+			SceneManager.LoadScene(2);
+			base.OnDeath();
 		}
 	}
 }

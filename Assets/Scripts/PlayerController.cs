@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -16,6 +17,22 @@ namespace Assets.Scripts
 
 		public Ragnar RagnarObj;
 		public Vector2 Speed;
+
+		public Text PotionText;
+		public Text MoneyText;
+
+		public GameObject SpecialAttackPrefab;
+		public float SpecialAttackRange;
+
+		private int money;
+		private int potion;
+		public void AddDrop(int money, bool potion)
+		{
+			this.money += money;
+			this.potion += potion ? 1 : 0;
+			this.PotionText.text = this.potion.ToString();
+			this.MoneyText.text = this.money.ToString();
+		}
 
 
 		public Effect HitSpark;
@@ -54,6 +71,7 @@ namespace Assets.Scripts
 			this.RenderMinions();
 
 			PlayerController.CurrentInstance = this;
+			this.AddDrop(1250, true);
 		}
 
 		// Update is called once per frame
@@ -86,11 +104,7 @@ namespace Assets.Scripts
 
 			if (Input.GetKeyDown(KeyCode.H))
 			{
-				this.TakeDamage(true, 5);
-			}
-			if (Input.GetKeyDown(KeyCode.G))
-			{
-				this.TakeDamage(false, 5);
+				this.Heal(7);
 			}
 			if (Input.GetKeyDown(KeyCode.J))
 			{
@@ -99,6 +113,10 @@ namespace Assets.Scripts
 			if (Input.GetKeyUp(KeyCode.J))
 			{
 				this.FrontMinion.UnitAttackRelease();
+			}
+			if (Input.GetKeyDown(KeyCode.K))
+			{
+				this.SpeicalAttack();
 			}
 
 			foreach (var input in this.SwapIndex)
@@ -118,6 +136,21 @@ namespace Assets.Scripts
 					Destroy(this.minions[i].gameObject);
 				}
 			}
+		}
+
+		private void SpeicalAttack()
+		{
+			var newSpecial = Instantiate(this.SpecialAttackPrefab, this.transform);
+			this.RagnarObj.GetComponent<SpriteRenderer>().sprite = this.RagnarObj.Attack;
+			newSpecial.transform.localPosition = new Vector3(this.IsFacingRight ? this.SpecialAttackRange : -this.SpecialAttackRange, 0);
+			newSpecial.transform.parent = null;
+			StartCoroutine(FinishSpecial(newSpecial));
+		}
+		private IEnumerator FinishSpecial(GameObject special)
+		{
+			yield return new WaitForSeconds(1);
+			this.RagnarObj.GetComponent<SpriteRenderer>().sprite = this.RagnarObj.Normal;
+			Destroy(special);
 		}
 
 		private void FlipAll()
@@ -169,6 +202,22 @@ namespace Assets.Scripts
 			}
 
 			target.CurrentHP -= damage;
+		}
+		public void Heal(float amount)
+		{
+			if (this.potion <= 0)
+			{
+				return;
+			}
+			var target = this.TargetFrom(this.IsFacingRight);
+			if (target == null)
+			{
+				return;
+			}
+
+			target.CurrentHP += amount;
+			this.potion--;
+			this.AddDrop(0, false);
 		}
 	}
 }

@@ -14,6 +14,8 @@
 		public float MovementSpeed;
 		public float AttackRange;
 
+		public Drop Drops;
+
 		public Sprite RedSprite;
 
 		protected override void Start()
@@ -21,6 +23,16 @@
 			base.Start();
 			this.IsFacingRight = !this.AttackFromRight;
 			this.MovementGoal = this.transform.position;
+		}
+
+		public override void OnDeath()
+		{
+			if (this.Drops != null)
+			{
+				this.Drops.gameObject.SetActive(true);
+				this.Drops.transform.position = this.transform.position;
+			}
+			base.OnDeath();
 		}
 
 		protected override void Update()

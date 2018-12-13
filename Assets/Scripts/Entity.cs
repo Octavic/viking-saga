@@ -2,6 +2,7 @@
 namespace Assets.Scripts
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
@@ -27,7 +28,7 @@ namespace Assets.Scripts
 			}
 			set
 			{
-				this._currentHP = value;
+				this._currentHP = Math.Min(value, this.TotalHP);
 				if (this._currentHP < 0)
 				{
 					this.OnDeath();
@@ -65,14 +66,14 @@ namespace Assets.Scripts
 			newHitSpark.transform.position = this.transform.position;
 			this.CurrentHP -= damageTaken;
 		}
-		public void OnDeath()
+		public virtual void OnDeath()
 		{
 			var corpse = new GameObject();
 			corpse.transform.position = this.transform.position;
 			var corpseRenderer = corpse.AddComponent<SpriteRenderer>();
+			corpse.AddComponent<Effect>();
 			corpseRenderer.sprite = this.Death;
 			corpseRenderer.sortingOrder = -1;
-
 			Destroy(this.gameObject);
 		}
 
